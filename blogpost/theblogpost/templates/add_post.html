@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Create A New Blog Post!{% endblock %}
+{% block content %}
+
+<style>
+    /* styles.css */
+
+    /* Style the form container */
+    .container {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    /* Style the form itself */
+    .form-container {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Style the form elements */
+    .blog-form {
+        width: 100%;
+    }
+
+    /* Style the submit button */
+    .btn {
+        margin-top: 10px;
+    }
+</style>
+
+{% if user.is_authenticated %}
+<div class="container">
+    <h2>Add Post!</h2>
+    <br><br>
+    <div class="form-container">
+        <form method="POST" class="blog-form">
+            <table>
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+            </table>
+            <button class="btn btn-outline-primary btn-sm">POST</button>
+        </form>
+    </div>
+</div>
+{% else %}
+Get the hell out man !!!!!!!!!
+{% endif %}
+{% endblock %}

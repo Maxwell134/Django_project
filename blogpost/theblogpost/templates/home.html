@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %} This is my life !!!!!! {% endblock %}
+
+{% block content %}
+<style>
+    .Tim {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 10px;
+}
+
+/* Style the 'Blog Post' heading */
+h3 {
+    color: blue;
+}
+
+/* Style the list items */
+ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+/* Style links */
+a {
+    text-decoration: none;
+    color: #007bff; /* Blue color for links */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline links on hover */
+    color: green;
+}
+
+/* Style the '(Edit)' small text */
+small {
+    font-size: 100%;
+    color: #666;
+}
+</style>
+
+        {% if user.is_authenticated %}
+        <h4> Welcome {{ user.username }} </h4>
+  {% else %}
+        <!-- Optionally, display a message for non-logged-in users -->
+        <h4> Welcome Guest </h4>
+    {% endif %}
+<br>
+<div class="Tim">
+    <h3>Blog Post</h3>
+    <table class="table table-striped">
+    <ul>
+
+        {% for post in object_list %}
+        <li>
+             <a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a>   -
+           {{ post.author.first_name }}
+            {{ post.author.last_name }} -{{post.post_date}}
+
+              {% if user.is_authenticated and user == post.author %}
+            - <a href="{% url 'update_post' post.pk|slugify %}"><small>(Edit)</small></a>
+              <a href="{% url 'delete_post' post.pk|slugify %}"><small>(Delete)</small></a>
+               {% endif %}
+            <br/>
+
+
+<!--            {{ post.body }} -->
+        </li>
+        {% endfor %}
+
+    </ul>
+        </table>
+</div>
+
+{% endblock %}
